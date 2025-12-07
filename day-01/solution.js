@@ -20,6 +20,7 @@ function computeDialPosition(instruction, currentPosition) {
 const instructions = readLines().slice(0, 10);
 let position = 50;
 for (const instr of instructions) {
+    const prevPosition = position;
     position = computeDialPosition(instr, position);
-    console.log(position);
+    console.log(`Previous: ${prevPosition}, Instruction: ${instr}, Current: ${position}`);
 }
