@@ -23,13 +23,13 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
     }
     const instr = instructions[0];
     const prevPosition = position;
-    position = computeDialPosition(instr, position);
-    if (position === 0) zeroCount++;
+    const computedPosition = computeDialPosition(instr, position);
+    if (computedPosition === 0) zeroCount++;
     const prevStr = `D${prevPosition.toString().padStart(2, '0')}`;
     const instrStr = instr.padEnd(3, ' ');
-    const currStr = `D${position.toString().padStart(2, '0')}`;
+    const currStr = `D${computedPosition.toString().padStart(2, '0')}`;
     console.log(`${prevStr} => ${instrStr} => ${currStr}`);
-    return processDialInstructions(instructions.slice(1), position, zeroCount);
+    return processDialInstructions(instructions.slice(1), computedPosition, zeroCount);
 }
 
 const instructions = readLines().slice(0, 10);
