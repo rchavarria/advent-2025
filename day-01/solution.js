@@ -6,19 +6,20 @@ export function readLines() {
     return fs.readFileSync(filePath, 'utf8').split(/\r?\n/);
 }
 
-function computeDialPosition(instructions, start = 50) {
-    let position = start;
-    for (const instr of instructions) {
-        const direction = instr[0];
-        const value = parseInt(instr.slice(1), 10);
-        if (direction === 'L') {
-            position = (position - value + 100) % 100;
-        } else if (direction === 'R') {
-            position = (position + value) % 100;
-        }
+function computeDialPosition(instruction, currentPosition) {
+    const direction = instruction[0];
+    const value = parseInt(instruction.slice(1), 10);
+    if (direction === 'L') {
+        return (currentPosition - value + 100) % 100;
+    } else if (direction === 'R') {
+        return (currentPosition + value) % 100;
     }
-    return position;
+    return currentPosition;
 }
 
 const instructions = readLines().slice(0, 10);
-console.log(computeDialPosition(instructions));
+let position = 50;
+for (const instr of instructions) {
+    position = computeDialPosition(instr, position);
+    console.log(position);
+}
