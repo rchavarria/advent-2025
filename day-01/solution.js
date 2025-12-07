@@ -29,8 +29,9 @@ function processDialInstructions(instructions, initialPosition = 50) {
         const currStr = `D${position.toString().padStart(2, '0')}`;
         console.log(`${prevStr} => ${instrStr} => ${currStr}`);
     }
-    console.log(`Computed position is 0: ${zeroCount} times`);
+    return zeroCount;
 }
 
 const instructions = readLines().slice(0, 10);
-processDialInstructions(instructions);
+const zeroCount = processDialInstructions(instructions);
+console.log(`Times dial was at position 0: ${zeroCount}`);
