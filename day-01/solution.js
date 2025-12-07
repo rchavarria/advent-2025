@@ -8,7 +8,7 @@ export function readLines() {
 
 function computeDialPosition(instruction, currentPosition) {
   const direction = instruction[0];
-  const value = parseInt(instruction.slice(1), 10);
+  const value = parseInt(instruction.slice(1), 10) % 100;
 
   if (direction === 'L') {
     return (currentPosition - value + 100) % 100;
