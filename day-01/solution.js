@@ -17,18 +17,19 @@ function computeDialPosition(instruction, currentPosition) {
     return currentPosition;
 }
 
-function processDialInstructions(instructions, initialPosition = 50, index = 0, position = initialPosition, zeroCount = 0) {
-    if (index >= instructions.length) {
+function processDialInstructions(instructions, position = 50, zeroCount = 0) {
+    if (instructions.length === 0) {
         return zeroCount;
     }
+    const instr = instructions[0];
     const prevPosition = position;
-    position = computeDialPosition(instructions[index], position);
+    position = computeDialPosition(instr, position);
     if (position === 0) zeroCount++;
     const prevStr = `D${prevPosition.toString().padStart(2, '0')}`;
-    const instrStr = instructions[index].padEnd(3, ' ');
+    const instrStr = instr.padEnd(3, ' ');
     const currStr = `D${position.toString().padStart(2, '0')}`;
     console.log(`${prevStr} => ${instrStr} => ${currStr}`);
-    return processDialInstructions(instructions, initialPosition, index + 1, position, zeroCount);
+    return processDialInstructions(instructions.slice(1), position, zeroCount);
 }
 
 const instructions = readLines().slice(0, 10);
