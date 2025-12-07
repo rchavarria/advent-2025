@@ -36,22 +36,28 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
 
   let computedPosition = position;
   if (instructionDirection === 'L') {
-    computedPosition = (position - instructionValue + 100) % 100;
+    computedPosition = position - instructionValue;
   } else if (instructionDirection === 'R') {
     computedPosition = position + instructionValue;
+  }
+
+  if (computedPosition < 0) {
+    zeroCount -= Math.floor(computedPosition / 100);
+    computedPosition = computedPosition % 100;
+    if (computedPosition < 0) {
+      computedPosition += 100;
+    }
   }
 
   if (computedPosition >= 100) {
     zeroCount += Math.floor(computedPosition / 100);
     computedPosition = computedPosition % 100;
-  }
-
-  if (computedPosition === 0) {
+  } else if (computedPosition === 0) {
     zeroCount++;
   }
 
   const prevStr = `D${position.toString().padStart(2, '0')}`;
-  const instrStr = instruction.padEnd(3, ' ');
+  const instrStr = instruction.padEnd(4, ' ');
   const currStr = `D${computedPosition.toString().padStart(2, '0')}`;
 
   console.log(`${prevStr} => ${instrStr} => ${currStr}`);
@@ -60,6 +66,6 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
 }
 
 //const instructions = readLines();
-const instructions = [ 'R151' ];
+const instructions = [ 'R51', 'L2', 'R101' ];
 const zeroCount = processDialInstructions(instructions);
 console.log(`Times dial was at position 0: ${zeroCount}`);
