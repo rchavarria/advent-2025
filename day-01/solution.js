@@ -39,6 +39,6 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
   return processDialInstructions(instructions.slice(1), computedPosition, zeroCount);
 }
 
-const instructions = readLines().slice(0, 50);
+const instructions = readLines();
 const zeroCount = processDialInstructions(instructions);
 console.log(`Times dial was at position 0: ${zeroCount}`);
