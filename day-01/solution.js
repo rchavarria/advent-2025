@@ -22,5 +22,8 @@ let position = 50;
 for (const instr of instructions) {
     const prevPosition = position;
     position = computeDialPosition(instr, position);
-    console.log(`Previous: ${prevPosition}, Instruction: ${instr}, Current: ${position}`);
+    const prevStr = `D${prevPosition.toString().padStart(2, '0')}`;
+    const instrStr = instr.padEnd(3, ' ');
+    const currStr = `D${position.toString().padStart(2, '0')}`;
+    console.log(`${prevStr} => ${instrStr} => ${currStr}`);
 }
