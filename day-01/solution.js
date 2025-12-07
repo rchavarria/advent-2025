@@ -42,11 +42,13 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
   }
 
   if (computedPosition < 0) {
-    zeroCount -= Math.floor(computedPosition / 100);
-    computedPosition = computedPosition % 100;
-    if (computedPosition < 0) {
-      computedPosition += 100;
+    zeroCount += Math.floor(-1 * computedPosition / 100);
+    // if previous position was greater than 0, we crossed zero once more
+    if (position > 0) {
+      zeroCount++;
     }
+    computedPosition = computedPosition % 100;
+    computedPosition += 100;
   }
 
   if (computedPosition >= 100) {
@@ -65,7 +67,7 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
   return processDialInstructions(instructions.slice(1), computedPosition, zeroCount);
 }
 
-//const instructions = readLines();
-const instructions = [ 'R51', 'L2', 'R101' ];
+const instructions = readLines().slice(0, 51);
+//const instructions = [ 'R51', 'L2', 'R101' ];
 const zeroCount = processDialInstructions(instructions);
 console.log(`Times dial was at position 0: ${zeroCount}`);
