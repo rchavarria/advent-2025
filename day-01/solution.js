@@ -17,16 +17,20 @@ function computeDialPosition(instruction, currentPosition) {
     return currentPosition;
 }
 
-const instructions = readLines().slice(0, 10);
-let position = 50;
-let zeroCount = 0;
-for (const instr of instructions) {
-    const prevPosition = position;
-    position = computeDialPosition(instr, position);
-    if (position === 0) zeroCount++;
-    const prevStr = `D${prevPosition.toString().padStart(2, '0')}`;
-    const instrStr = instr.padEnd(3, ' ');
-    const currStr = `D${position.toString().padStart(2, '0')}`;
-    console.log(`${prevStr} => ${instrStr} => ${currStr}`);
+function processDialInstructions(instructions, initialPosition = 50) {
+    let position = initialPosition;
+    let zeroCount = 0;
+    for (const instr of instructions) {
+        const prevPosition = position;
+        position = computeDialPosition(instr, position);
+        if (position === 0) zeroCount++;
+        const prevStr = `D${prevPosition.toString().padStart(2, '0')}`;
+        const instrStr = instr.padEnd(3, ' ');
+        const currStr = `D${position.toString().padStart(2, '0')}`;
+        console.log(`${prevStr} => ${instrStr} => ${currStr}`);
+    }
+    console.log(`Computed position is 0: ${zeroCount} times`);
 }
-console.log(`Computed position is 0: ${zeroCount} times`);
+
+const instructions = readLines().slice(0, 10);
+processDialInstructions(instructions);
