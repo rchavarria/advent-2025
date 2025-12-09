@@ -53,13 +53,16 @@ function print(id) {
   return id;
 }
 
-// const sumInvalidIds = readRanges()
-const sumInvalidIds = [
-  { lower: 90, upper: 120 },
-]
+const sumInvalidIds = readRanges()
+// const sumInvalidIds = [
+//   { lower: 90, upper: 120 },
+// ]
   .map(newScanRange)
+  // .map(scanRange)
   .flat()
-  .map(print)
+  // .map(print)
   .reduce((acc, id) => acc + id, 0)
 
 console.log('Sum:', sumInvalidIds);
+
+console.assert(sumInvalidIds === 25663320831, 'Sum should be 25663320831');
