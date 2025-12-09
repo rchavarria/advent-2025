@@ -13,6 +13,10 @@ function assertTrue(expected, actual) {
   console.assert(expected === actual, `Expected ${expected}, but got ${actual}`);
 }
 
+function isARoll(grid, x, y) {
+  return grid[x][y] === "@";
+}
+
 function countAdjacentRolls(grid, x, y) {
   let count = 0;
   const directions = [
@@ -27,7 +31,7 @@ function countAdjacentRolls(grid, x, y) {
     if (
       nx >= 0 && nx < grid.length &&
       ny >= 0 && ny < grid[0].length &&
-      grid[nx][ny] === "@"
+      isARoll(grid, nx, ny)
     ) {
       count++;
     }
@@ -76,13 +80,25 @@ testA()
 testB()
 
 function forEachCell(grid) {
+  let accesible = 0;
+
   for (let x = 0; x < grid.length; x++) {
     for (let y = 0; y < grid[x].length; y++) {
+      if (!isARoll(grid, x, y)) {
+        continue;
+      }
+
       const count = countAdjacentRolls(grid, x, y);
-      console.log(`Cell (${x}, ${y}) has ${count} adjacent rolls.`);
+      if (count < 4) {
+        accesible++;
+        console.log(`Cell (${x}, ${y}) has ${count} adjacent rolls.`);
+      }
     }
   }
+
+  return accesible
 }
 
 const grid = readGrid();
-forEachCell(grid)
+const accesible = forEachCell(grid)
+console.log(`Total accesible cells: ${accesible}`);
