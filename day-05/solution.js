@@ -25,8 +25,12 @@ function readIngredients() {
     .map(Number)
 }
 
+function isFresh(ranges, ingredient) {
+  return ranges.some(({ min, max }) => ingredient >= min && ingredient <= max);
+}
+
 const ranges = readRanges()
 const ingredients = readIngredients()
 
-console.log('ranges:', ranges)
-console.log('ingredients:', ingredients)
+const freshCount = ingredients.filter(ingredient => isFresh(ranges, ingredient)).length;
+console.log('Fresh ingredients count:', freshCount);
