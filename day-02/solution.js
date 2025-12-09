@@ -33,7 +33,11 @@ function scanRange(range) {
 }
 
 const ranges = readRanges();
-ranges.forEach(range => {
-  const invalids = scanRange(range);
-  console.log(`Invalid IDs [lwr: ${range.lower}, upr: ${range.upper}]:`, invalids);
-});
+const allInvalidIds = ranges.map(scanRange).flat();
+
+// ranges.forEach(range => {
+//   const invalids = scanRange(range);
+//   console.log(`Invalid IDs [lwr: ${range.lower}, upr: ${range.upper}]:`, invalids);
+// });
+
+console.log('Todos los IDs inválidos:', allInvalidIds);
