@@ -23,6 +23,6 @@ function assertTrue(bank, maxJoltage) {
 }
 
 assertTrue('987654321111111', 98);
-assertTrue('811111111111119', 91);
-assertTrue('234234234234278', 87);
-assertTrue('818181911112111', 98);
+assertTrue('811111111111119', 89);
+assertTrue('234234234234278', 78);
+assertTrue('818181911112111', 92);
