@@ -45,6 +45,11 @@ function assertTrue(bank, maxJoltage) {
   console.assert(result === maxJoltage, `Expected max joltage for bank ${bank} is ${maxJoltage}, but got ${result}`);
 }
 
+function print(joltage) {
+  console.log('Bank:', joltage);
+  return joltage;
+}
+
 assertTrue('987654321111111', 987654321111);
 assertTrue('811111111111119', 811111111119);
 assertTrue('234234234234278', 434234234278);
@@ -57,10 +62,11 @@ assertTrue(banks[0], 666655555463);
 assertTrue(banks[1], 986666555475);
 assertTrue(banks[2], 777777776665);
 assertTrue(banks[3], 666666423323);
+assertTrue(banks[7], 888929656426);
 
-// const maxJoltages = banks.map(largestJoltage);
-// console.log('Max joltages for all banks:', maxJoltages);
+const maxJoltages = banks.map(largestJoltage).map(print);
+console.log('Max joltages for all banks:', maxJoltages);
 
-// const sum = maxJoltages.reduce((acc, curr) => acc + curr, 0);
-// console.log('Sum of all max joltages:', sum);
-// console.assert(sum === 17613, `Expected sum of all max joltages is 17613, but got ${sum}`);
+const sum = maxJoltages.reduce((acc, curr) => acc + curr, 0);
+console.log('Sum of all max joltages:', sum);
+console.assert(sum === 175304218462560, `Expected sum of all max joltages is 175304218462560, but got ${sum}`);
