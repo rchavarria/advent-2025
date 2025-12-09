@@ -15,17 +15,21 @@ function readRanges() {
 // console.log('ranges:', readRanges())
 
 function scanRange(range) {
+  const invalidIds = [];
   for (let i = range.lower; i <= range.upper; i++) {
     const str = i.toString();
     if (str.length % 2 === 0) {
       const half = str.length / 2;
       if (str.slice(0, half) === str.slice(half)) {
-        console.log(i);
+        invalidIds.push(i);
       }
     }
   }
+  return invalidIds;
 }
 
-scanRange({ lower: 1, upper: 14 });
-console.log('---');
-scanRange({ lower: 16, upper: 35 });
+const ranges = readRanges();
+ranges.forEach(range => {
+  const invalids = scanRange(range);
+  console.log(`Invalid IDs [lwr: ${range.lower}, upr: ${range.upper}]:`, invalids);
+});
