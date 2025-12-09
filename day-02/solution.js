@@ -12,19 +12,23 @@ function readRanges() {
     })
 }
 
-// console.log('ranges:', readRanges())
-
 function scanRange(range) {
   const invalidIds = [];
+
   for (let i = range.lower; i <= range.upper; i++) {
-    const str = i.toString();
-    if (str.length % 2 === 0) {
-      const half = str.length / 2;
-      if (str.slice(0, half) === str.slice(half)) {
-        invalidIds.push(i);
-      }
+    const id = i.toString();
+    if (id.length % 2 !== 0) {
+      continue;
     }
+
+    const half = id.length / 2;
+    if (id.slice(0, half) !== id.slice(half)) {
+      continue;
+    }
+
+    invalidIds.push(i);
   }
+
   return invalidIds;
 }
 
