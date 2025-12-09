@@ -32,12 +32,9 @@ function scanRange(range) {
   return invalidIds;
 }
 
-const ranges = readRanges();
-const allInvalidIds = ranges.map(scanRange).flat();
+const sumInvalidIds = readRanges()
+  .map(scanRange)
+  .flat()
+  .reduce((acc, id) => acc + id, 0)
 
-// ranges.forEach(range => {
-//   const invalids = scanRange(range);
-//   console.log(`Invalid IDs [lwr: ${range.lower}, upr: ${range.upper}]:`, invalids);
-// });
-
-console.log('Todos los IDs inválidos:', allInvalidIds);
+console.log('Sum:', sumInvalidIds);
