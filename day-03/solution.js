@@ -30,7 +30,8 @@ function largestJoltage(bank) {
 
   for (let remaining = JOLTAGE_DIGITS; remaining > 0; remaining--) {
     const subbank = bank.substring(index, bank.length - remaining + 1);
-    console.log(`Bank: ${bank} => subbank: ${subbank}`);
+    const sorted = subbank.split('').sort((a, b) => b - a).join('');
+    // console.log(`Bank: ${bank} => subbank: ${subbank} => sorted: ${sorted}`);
     const battery = findLargestBattery(subbank);
     digits.push(bank[index + battery]);
     index += battery + 1;
@@ -52,10 +53,10 @@ assertTrue('818181911112111', 888911112111);
 const banks = readBanks();
 
 // test some read banks from input.txt
-// assertTrue(banks[0], 66);
-// assertTrue(banks[1], 98);
-// assertTrue(banks[2], 77);
-// assertTrue(banks[3], 66);
+assertTrue(banks[0], 666655555463);
+assertTrue(banks[1], 986666555475);
+assertTrue(banks[2], 777777776665);
+assertTrue(banks[3], 666666423323);
 
 // const maxJoltages = banks.map(largestJoltage);
 // console.log('Max joltages for all banks:', maxJoltages);
