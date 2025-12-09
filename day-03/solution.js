@@ -8,4 +8,21 @@ function readBanks() {
     .split('\r\n')
 }
 
-console.log('Input:', readBanks());
+function largestJoltage(bank) {
+  // Convert the string into an array of digits
+  const digits = bank.split('').map(Number);
+  // Sort in descending order
+  digits.sort((a, b) => b - a);
+  // Take the two largest digits and combine them
+  return digits[0] * 10 + digits[1];
+}
+
+function assertTrue(bank, maxJoltage) {
+  const result = largestJoltage(bank);
+  console.assert(result === maxJoltage, `Expected max joltage for bank ${bank} is ${maxJoltage}, but got ${result}`);
+}
+
+assertTrue('987654321111111', 98);
+assertTrue('811111111111119', 91);
+assertTrue('234234234234278', 87);
+assertTrue('818181911112111', 98);
