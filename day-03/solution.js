@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+const JOLTAGE_DIGITS = 12;
+
 function readBanks() {
   const filePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'input.txt');
   return fs
@@ -23,12 +25,18 @@ function findLargestBattery(subbank) {
 }
 
 function largestJoltage(bank) {
-  const first = findLargestBattery(bank.substring(0, bank.length - 1));
-  const second = findLargestBattery(bank.substring(first + 1));
-  const max1 = Number(bank[first]);
-  const max2 = Number(bank[first + 1 + second]);
+  const digits = [];
+  let index = 0;
 
-  return Number(`${max1}${max2}`);
+  for (let remaining = JOLTAGE_DIGITS; remaining > 0; remaining--) {
+    const subbank = bank.substring(index, bank.length - remaining + 1);
+    console.log(`Bank: ${bank} => subbank: ${subbank}`);
+    const battery = findLargestBattery(subbank);
+    digits.push(bank[index + battery]);
+    index += battery + 1;
+  }
+
+  return Number(digits.join(''));
 }
 
 function assertTrue(bank, maxJoltage) {
@@ -36,25 +44,22 @@ function assertTrue(bank, maxJoltage) {
   console.assert(result === maxJoltage, `Expected max joltage for bank ${bank} is ${maxJoltage}, but got ${result}`);
 }
 
-assertTrue('987654321111111', 98);
-assertTrue('811111111111119', 89);
-assertTrue('234234234234278', 78);
-assertTrue('818181911112111', 92);
-
-// edge case: the first largest battery happens twice
-assertTrue('1181118119', 89);
-assertTrue('1181118117', 88);
+assertTrue('987654321111111', 987654321111);
+assertTrue('811111111111119', 811111111119);
+assertTrue('234234234234278', 434234234278);
+assertTrue('818181911112111', 888911112111);
 
 const banks = readBanks();
 
 // test some read banks from input.txt
-assertTrue(banks[0], 66);
-assertTrue(banks[1], 98);
-assertTrue(banks[2], 77);
-assertTrue(banks[3], 66);
+// assertTrue(banks[0], 66);
+// assertTrue(banks[1], 98);
+// assertTrue(banks[2], 77);
+// assertTrue(banks[3], 66);
 
-const maxJoltages = banks.map(largestJoltage);
-console.log('Max joltages for all banks:', maxJoltages);
+// const maxJoltages = banks.map(largestJoltage);
+// console.log('Max joltages for all banks:', maxJoltages);
 
-const sum = maxJoltages.reduce((acc, curr) => acc + curr, 0);
-console.log('Sum of all max joltages:', sum);
+// const sum = maxJoltages.reduce((acc, curr) => acc + curr, 0);
+// console.log('Sum of all max joltages:', sum);
+// console.assert(sum === 17613, `Expected sum of all max joltages is 17613, but got ${sum}`);
