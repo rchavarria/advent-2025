@@ -99,6 +99,19 @@ function forEachCell(grid) {
   return accesible
 }
 
+function removeRolls(grid, accesible) {
+  // deep copy grid
+  const newGrid = grid.map(row => row.slice());
+  for (const { x, y } of accesible) {
+    newGrid[x][y] = ".";
+  }
+
+  return newGrid;
+}
+
 const grid = readGrid();
 const accesible = forEachCell(grid)
-console.log(`Total accesible cells: ${accesible.length}`);
+const newGrid = removeRolls(grid, accesible);
+const newAccesible = forEachCell(newGrid);
+
+console.log(`Total accesible cells: ${accesible.length + newAccesible.length}`);
