@@ -32,12 +32,16 @@ function scanRange(range) {
   return invalidIds;
 }
 
+function isInvalidId(id) {
+  const regex = /^(\d+)\1+$/;
+  return regex.test(id);
+}
+
 function newScanRange(range) {
   const invalidIds = [];
-  const regex = /^(\d+)\1+$/;
   for (let i = range.lower; i <= range.upper; i++) {
     const id = i.toString();
-    if (regex.test(id)) {
+    if (isInvalidId(id)) {
       invalidIds.push(i);
     }
   }
