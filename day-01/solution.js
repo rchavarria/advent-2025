@@ -29,10 +29,10 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
   let instructionValue = parseInt(instruction.slice(1), 10);
 
   // Count full rotations, increment zeroCount accordingly
-  //if (instructionValue >= 100) {
-  //  zeroCount += Math.floor(instructionValue / 100);
-  //  instructionValue = instructionValue % 100;
-  //}
+  if (instructionValue >= 100) {
+   zeroCount += Math.floor(instructionValue / 100);
+   instructionValue = instructionValue % 100;
+  }
 
   let computedPosition = position;
   if (instructionDirection === 'L') {
@@ -42,18 +42,16 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
   }
 
   if (computedPosition < 0) {
-    zeroCount += Math.floor(-1 * computedPosition / 100);
-    // if previous position was greater than 0, we crossed zero once more
+    // zero was crossed only if previous position was greater than zero
     if (position > 0) {
       zeroCount++;
     }
-    computedPosition = computedPosition % 100;
     computedPosition += 100;
-  }
 
-  if (computedPosition >= 100) {
-    zeroCount += Math.floor(computedPosition / 100);
+  } else if (computedPosition >= 100) {
+    zeroCount++;
     computedPosition = computedPosition % 100;
+
   } else if (computedPosition === 0) {
     zeroCount++;
   }
@@ -67,7 +65,9 @@ function processDialInstructions(instructions, position = 50, zeroCount = 0) {
   return processDialInstructions(instructions.slice(1), computedPosition, zeroCount);
 }
 
-const instructions = readLines().slice(0, 51);
-//const instructions = [ 'R51', 'L2', 'R101' ];
+// const instructions = readLines();
+const instructions = readLines().slice(0, 4500);
+// const instructions = readLines().slice(4500);
+// const instructions = [ 'R51', 'L2', 'R2', 'L1', 'L1' ];
 const zeroCount = processDialInstructions(instructions);
 console.log(`Times dial was at position 0: ${zeroCount}`);
