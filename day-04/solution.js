@@ -80,7 +80,7 @@ testA()
 testB()
 
 function forEachCell(grid) {
-  let accesible = 0;
+  let accesible = [];
 
   for (let x = 0; x < grid.length; x++) {
     for (let y = 0; y < grid[x].length; y++) {
@@ -90,7 +90,7 @@ function forEachCell(grid) {
 
       const count = countAdjacentRolls(grid, x, y);
       if (count < 4) {
-        accesible++;
+        accesible.push({ x, y });
         console.log(`Cell (${x}, ${y}) has ${count} adjacent rolls.`);
       }
     }
@@ -101,4 +101,4 @@ function forEachCell(grid) {
 
 const grid = readGrid();
 const accesible = forEachCell(grid)
-console.log(`Total accesible cells: ${accesible}`);
+console.log(`Total accesible cells: ${accesible.length}`);
