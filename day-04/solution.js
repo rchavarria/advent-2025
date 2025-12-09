@@ -109,9 +109,20 @@ function removeRolls(grid, accesible) {
   return newGrid;
 }
 
-const grid = readGrid();
-const accesible = forEachCell(grid)
-const newGrid = removeRolls(grid, accesible);
-const newAccesible = forEachCell(newGrid);
+function countTotalAccessibleCells(grid) {
+  let total = 0;
+  let currentGrid = grid;
+  while (true) {
+    const accesible = forEachCell(currentGrid);
+    if (accesible.length === 0) {
+      break;
+    }
+    total += accesible.length;
+    currentGrid = removeRolls(currentGrid, accesible);
+  }
+  return total;
+}
 
-console.log(`Total accesible cells: ${accesible.length + newAccesible.length}`);
+const grid = readGrid();
+const totalAccessible = countTotalAccessibleCells(grid);
+console.log(`Total accesible cells: ${totalAccessible}`);
