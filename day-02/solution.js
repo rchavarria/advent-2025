@@ -32,6 +32,18 @@ function scanRange(range) {
   return invalidIds;
 }
 
+function newScanRange(range) {
+  const invalidIds = [];
+  const regex = /^(\d+)\1+$/;
+  for (let i = range.lower; i <= range.upper; i++) {
+    const id = i.toString();
+    if (regex.test(id)) {
+      invalidIds.push(i);
+    }
+  }
+  return invalidIds;
+}
+
 function print(id) {
   console.log('Invalid:', id);
   return id;
@@ -41,7 +53,7 @@ function print(id) {
 const sumInvalidIds = [
   { lower: 90, upper: 120 },
 ]
-  .map(scanRange)
+  .map(newScanRange)
   .flat()
   .map(print)
   .reduce((acc, id) => acc + id, 0)
