@@ -32,9 +32,18 @@ function scanRange(range) {
   return invalidIds;
 }
 
-const sumInvalidIds = readRanges()
+function print(id) {
+  console.log('Invalid:', id);
+  return id;
+}
+
+// const sumInvalidIds = readRanges()
+const sumInvalidIds = [
+  { lower: 90, upper: 120 },
+]
   .map(scanRange)
   .flat()
+  .map(print)
   .reduce((acc, id) => acc + id, 0)
 
 console.log('Sum:', sumInvalidIds);
