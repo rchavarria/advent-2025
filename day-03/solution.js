@@ -55,3 +55,6 @@ assertTrue(banks[3], 66);
 
 const maxJoltages = banks.map(largestJoltage);
 console.log('Max joltages for all banks:', maxJoltages);
+
+const sum = maxJoltages.reduce((acc, curr) => acc + curr, 0);
+console.log('Sum of all max joltages:', sum);
