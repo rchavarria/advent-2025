@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+const INVALID_ID_REGEXP = /^(\d+)\1+$/;
+
 function readRanges() {
   const filePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'input.txt');
   return fs
@@ -33,19 +35,13 @@ function scanRange(range) {
 }
 
 function isInvalidId(id) {
-  const regex = /^(\d+)\1+$/;
-  return regex.test(id);
+  return INVALID_ID_REGEXP.test(id.toString());
 }
 
 function newScanRange(range) {
-  const invalidIds = [];
-  for (let i = range.lower; i <= range.upper; i++) {
-    const id = i.toString();
-    if (isInvalidId(id)) {
-      invalidIds.push(i);
-    }
-  }
-  return invalidIds;
+  return Array
+    .from({ length: range.upper - range.lower + 1 }, (_, idx) => range.lower + idx)
+    .filter(isInvalidId);
 }
 
 function print(id) {
