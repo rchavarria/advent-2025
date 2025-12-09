@@ -8,26 +8,25 @@ function readBanks() {
     .split('\r\n')
 }
 
+function findLargestBattery(bank) {
+  let max = -1, pos = -1;
+  for (let i = 0; i < bank.length; i++) {
+    const digit = Number(bank[i]);
+    if (digit > max) {
+      max = digit;
+      pos = i;
+    }
+  }
+  return pos;
+}
+
 function largestJoltage(bank) {
-  // Step 1: Find the largest digit and its position
-  let max1 = -1, pos1 = -1;
-  for (let i = 0; i < bank.length - 1; i++) {
-    const digit = Number(bank[i]);
-    if (digit > max1) {
-      max1 = digit;
-      pos1 = i;
-    }
-  }
-  // Step 2: Find the largest digit after the previous position
-  let max2 = -1;
-  for (let i = pos1 + 1; i < bank.length; i++) {
-    const digit = Number(bank[i]);
-    if (digit > max2) {
-      max2 = digit;
-    }
-  }
-  // Step 3: Concatenate both digits
-  return max2 === -1 ? max1 * 10 + max1 : max1 * 10 + max2;
+  const first = findLargestBattery(bank.substring(0, bank.length - 1));
+  const second = findLargestBattery(bank.substring(first + 1));
+  const max1 = Number(bank[first]);
+  const max2 = Number(bank[first + 1 + second]);
+
+  return Number(`${max1}${max2}`);
 }
 
 function assertTrue(bank, maxJoltage) {
