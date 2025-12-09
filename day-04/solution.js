@@ -1,11 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 
-function readLines() {
+function readGrid() {
   const filePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'input.txt');
   return fs
     .readFileSync(filePath, 'utf8')
     .split('\r\n')
+    .map((line => line.split('')))
 }
 
 function assertTrue(expected, actual) {
@@ -36,21 +37,21 @@ function countAdjacentRolls(grid, x, y) {
 }
 
 function testA() {
-  const grid3x3A = [
+  const grid = [
     [".", "@", "."],
     ["@", "@", "."],
     [".", ".", "."]
   ];
 
-  assertTrue(3, countAdjacentRolls(grid3x3A, 0, 0));
-  assertTrue(2, countAdjacentRolls(grid3x3A, 1, 0));
-  assertTrue(2, countAdjacentRolls(grid3x3A, 2, 0));
-  assertTrue(2, countAdjacentRolls(grid3x3A, 0, 1));
-  assertTrue(2, countAdjacentRolls(grid3x3A, 1, 1));
-  assertTrue(2, countAdjacentRolls(grid3x3A, 2, 1));
-  assertTrue(2, countAdjacentRolls(grid3x3A, 0, 2));
-  assertTrue(2, countAdjacentRolls(grid3x3A, 1, 2));
-  assertTrue(1, countAdjacentRolls(grid3x3A, 2, 2));
+  assertTrue(3, countAdjacentRolls(grid, 0, 0));
+  assertTrue(2, countAdjacentRolls(grid, 1, 0));
+  assertTrue(2, countAdjacentRolls(grid, 2, 0));
+  assertTrue(2, countAdjacentRolls(grid, 0, 1));
+  assertTrue(2, countAdjacentRolls(grid, 1, 1));
+  assertTrue(2, countAdjacentRolls(grid, 2, 1));
+  assertTrue(2, countAdjacentRolls(grid, 0, 2));
+  assertTrue(2, countAdjacentRolls(grid, 1, 2));
+  assertTrue(1, countAdjacentRolls(grid, 2, 2));
 }
 
 function testB() {
@@ -73,3 +74,15 @@ function testB() {
 
 testA()
 testB()
+
+function forEachCell(grid) {
+  for (let x = 0; x < grid.length; x++) {
+    for (let y = 0; y < grid[x].length; y++) {
+      const count = countAdjacentRolls(grid, x, y);
+      console.log(`Cell (${x}, ${y}) has ${count} adjacent rolls.`);
+    }
+  }
+}
+
+const grid = readGrid();
+forEachCell(grid)
