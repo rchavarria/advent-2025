@@ -9,12 +9,25 @@ function readBanks() {
 }
 
 function largestJoltage(bank) {
-  // Convert the string into an array of digits
-  const digits = bank.split('').map(Number);
-  // Sort in descending order
-  digits.sort((a, b) => b - a);
-  // Take the two largest digits and combine them
-  return digits[0] * 10 + digits[1];
+  // Step 1: Find the largest digit and its position
+  let max1 = -1, pos1 = -1;
+  for (let i = 0; i < bank.length - 1; i++) {
+    const digit = Number(bank[i]);
+    if (digit > max1) {
+      max1 = digit;
+      pos1 = i;
+    }
+  }
+  // Step 2: Find the largest digit after the previous position
+  let max2 = -1;
+  for (let i = pos1 + 1; i < bank.length; i++) {
+    const digit = Number(bank[i]);
+    if (digit > max2) {
+      max2 = digit;
+    }
+  }
+  // Step 3: Concatenate both digits
+  return max2 === -1 ? max1 * 10 + max1 : max1 * 10 + max2;
 }
 
 function assertTrue(bank, maxJoltage) {
