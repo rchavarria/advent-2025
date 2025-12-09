@@ -44,3 +44,14 @@ assertTrue('818181911112111', 92);
 // edge case: the first largest battery happens twice
 assertTrue('1181118119', 89);
 assertTrue('1181118117', 88);
+
+const banks = readBanks();
+
+// test some read banks from input.txt
+assertTrue(banks[0], 66);
+assertTrue(banks[1], 98);
+assertTrue(banks[2], 77);
+assertTrue(banks[3], 66);
+
+const maxJoltages = banks.map(largestJoltage);
+console.log('Max joltages for all banks:', maxJoltages);
