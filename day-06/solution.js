@@ -36,4 +36,19 @@ function readMathProblems() {
   return problems;
 }
 
-console.log(readMathProblems())
+function solve(problem) {
+  const { numbers, op } = problem;
+  if (op === '+') {
+    return numbers.reduce((a, b) => a + b, 0);
+  } else if (op === '*') {
+    return numbers.reduce((a, b) => a * b, 1);
+  } else {
+    throw new Error(`Unknown op: ${op}`);
+  }
+}
+
+const problems = readMathProblems();
+
+const results = problems.map(solve);
+
+console.log(results);
