@@ -8,7 +8,7 @@ function readMathProblems() {
   const maxLen = Math.max(...lines.map(l => l.length));
   const paddedLines = lines.map(l => l.padEnd(maxLen, ' '));
   const columns = Array.from({length: maxLen}, (_, i) => paddedLines.map(l => l[i]));
-  // Identificar columnas separadoras (todas espacios)
+  // Identificar bloques de columnas (problemas) separados por columnas de solo espacios
   let problemCols = [];
   let current = [];
   for (let i = 0; i < columns.length; i++) {
@@ -24,13 +24,17 @@ function readMathProblems() {
   if (current.length > 0) problemCols.push(current);
   // Extraer problemas
   const problems = problemCols.map(colIdxs => {
-    // Para cada línea, extraer los caracteres de las columnas relevantes
-    const problemLines = paddedLines.map(l => colIdxs.map(idx => l[idx]).join('').trim());
-    // Filtrar líneas vacías
-    const filtered = problemLines.filter(l => l.length > 0);
-    // El último elemento es el operador
-    const op = filtered[filtered.length - 1];
-    const numbers = filtered.slice(0, -1).map(Number);
+    // Para cada columna, extraer los caracteres de las filas relevantes
+    // La última fila es el operador
+    const op = paddedLines[paddedLines.length - 1][colIdxs[0]]; // operador en la primera columna del bloque
+    // Para cada columna, tomar todas las filas menos la última
+    const numberDigitsByCol = colIdxs.map(idx =>
+      paddedLines.slice(0, -1).map(l => l[idx]).join('').trim()
+    );
+    // Filtrar columnas vacías (pueden aparecer si hay espacios extra)
+    const numbers = numberDigitsByCol
+      .filter(digits => digits.length > 0)
+      .map(digits => Number(digits));
     return { numbers, op };
   });
   return problems;
