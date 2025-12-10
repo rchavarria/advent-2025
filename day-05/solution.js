@@ -43,9 +43,9 @@ function mergeRanges(ranges) {
     if (range.min <= last.max) {
       // Merge: update last.max if needed
       last.max = Math.max(last.max, range.max);
-    } else if (range.max >= last.min) {
+    // } else if (range.max >= last.min) {
       // Merge: update last.min if needed
-      last.min = Math.min(last.min, range.min);
+      // last.min = Math.min(last.min, range.min);
     } else {
       result.push({ ...range });
     }
@@ -54,7 +54,7 @@ function mergeRanges(ranges) {
   return result;
 }
 
-function testDoesNotOverlapsBelow() {
+function testDoesNotOverlapBeyondMax() {
   const input = [
     { min: 10, max: 20 },
     { min: 30, max: 40 },
@@ -67,7 +67,7 @@ function testDoesNotOverlapsBelow() {
   const result = mergeRanges(input);
 
   let pass = result.length === expected.length;
-  console.assert(pass, 'Should have same length');
+  console.assert(pass, 'Should have same length', result);
 
   pass = result[0].min === expected[0].min && result[0].max === expected[0].max
   console.assert(pass, 'First range should match');
@@ -76,7 +76,7 @@ function testDoesNotOverlapsBelow() {
   console.assert(pass, 'Second range should match');
 }
 
-function testOverlapsOnMin() {
+function testOverlapsOnMax() {
   const input = [
     { min: 15, max: 25 },
     { min: 20, max: 30 },
@@ -94,8 +94,27 @@ function testOverlapsOnMin() {
   console.assert(pass, 'Merge should be from 15 to 30');
 }
 
-testOverlapsOnMin()
-testDoesNotOverlapsBelow()
+function testOverlapsWithin() {
+  const input = [
+    { min: 10, max: 40 },
+    { min: 20, max: 30 },
+  ];
+  const expected = [
+    { min: 10, max: 40 }
+  ];
+
+  const result = mergeRanges(input);
+
+  let pass = result.length === expected.length;
+  console.assert(pass, 'Should have same length', result);
+
+  pass = result[0].min === expected[0].min && result[0].max === expected[0].max
+  console.assert(pass, 'First range should match');
+}
+
+testOverlapsOnMax()
+testDoesNotOverlapBeyondMax()
+testOverlapsWithin()
 
 // const ranges = readRanges()
 //   .sort((a, b) => a.min - b.min)
