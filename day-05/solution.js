@@ -198,12 +198,15 @@ testOverlapsWhenMaxAreEqualBelow()
 testOverlapsWhenMaxAreEqualBeyond()
 testOverlapsOnSeveralRanges()
 
-// const ranges = readRanges()
-//   .sort((a, b) => a.min - b.min)
-// const ingredients = readIngredients()
-//
-// const freshCount = ingredients.filter(ingredient => isFresh(ranges, ingredient)).length;
-// console.log('Fresh ingredients count:', freshCount);
-//
-// const totalFreshIds = ranges.map(r => r.max - r.min).reduce((a, b) => a + b, 0);
-// console.log('Total possible fresh ingredient IDs:', totalFreshIds);
+const ranges = readRanges()
+  .sort((a, b) => a.min - b.min)
+const ingredients = readIngredients()
+
+const freshCount = ingredients.filter(ingredient => isFresh(ranges, ingredient)).length;
+console.log('Fresh ingredients count:', freshCount);
+
+const mergedRanges = mergeRanges(ranges);
+const totalMergedFreshIds = mergedRanges.map(r => r.max - r.min).reduce((a, b) => a + b + 1, 0);
+console.log('Total possible fresh ingredient IDs (merged):', totalMergedFreshIds);
+// 357485433193192 => too low
+// 357485433193284 => cuenta también un +1, porque ambos extremos son inclusivos
