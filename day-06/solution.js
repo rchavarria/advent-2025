@@ -48,7 +48,9 @@ function solve(problem) {
 }
 
 const problems = readMathProblems();
-
 const results = problems.map(solve);
+// console.log(results);
 
-console.log(results);
+const total = results.reduce((a, b) => a + b, 0);
+
+console.log('Grand total:', total); // 6172481852142
