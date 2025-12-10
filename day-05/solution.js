@@ -43,6 +43,9 @@ function mergeRanges(ranges) {
     if (range.min <= last.max) {
       // Merge: update last.max if needed
       last.max = Math.max(last.max, range.max);
+    } else if (range.max >= last.min) {
+      // Merge: update last.min if needed
+      last.min = Math.min(last.min, range.min);
     } else {
       result.push({ ...range });
     }
@@ -51,14 +54,55 @@ function mergeRanges(ranges) {
   return result;
 }
 
-const ranges = readRanges()
-  .sort((a, b) => a.min - b.min)
-const ingredients = readIngredients()
+function testDoesNotOverlapsBelow() {
+  const input = [
+    { min: 10, max: 20 },
+    { min: 30, max: 40 },
+  ];
+  const expected = [
+    { min: 10, max: 20 },
+    { min: 30, max: 40 },
+  ];
 
-const freshCount = ingredients.filter(ingredient => isFresh(ranges, ingredient)).length;
-console.log('Fresh ingredients count:', freshCount);
+  const result = mergeRanges(input);
 
-const totalFreshIds = ranges.map(r => r.max - r.min).reduce((a, b) => a + b, 0);
-console.log('Total possible fresh ingredient IDs:', totalFreshIds);
+  let pass = result.length === expected.length;
+  console.assert(pass, 'Should have same length');
 
-const mergedRanges = mergeRanges(ranges);
+  pass = result[0].min === expected[0].min && result[0].max === expected[0].max
+  console.assert(pass, 'First range should match');
+
+  pass = result[1].min === expected[1].min && result[1].max === expected[1].max
+  console.assert(pass, 'Second range should match');
+}
+
+function testOverlapsOnMin() {
+  const input = [
+    { min: 15, max: 25 },
+    { min: 20, max: 30 },
+  ];
+  const expected = [
+    { min: 15, max: 30 }
+  ];
+
+  const result = mergeRanges(input);
+
+  const pass = result.length === expected.length &&
+    result[0].min === expected[0].min &&
+    result[0].max === expected[0].max;
+
+  console.assert(pass, 'Merge should be from 15 to 30');
+}
+
+testOverlapsOnMin()
+testDoesNotOverlapsBelow()
+
+// const ranges = readRanges()
+//   .sort((a, b) => a.min - b.min)
+// const ingredients = readIngredients()
+//
+// const freshCount = ingredients.filter(ingredient => isFresh(ranges, ingredient)).length;
+// console.log('Fresh ingredients count:', freshCount);
+//
+// const totalFreshIds = ranges.map(r => r.max - r.min).reduce((a, b) => a + b, 0);
+// console.log('Total possible fresh ingredient IDs:', totalFreshIds);
