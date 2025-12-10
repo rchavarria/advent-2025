@@ -112,9 +112,91 @@ function testOverlapsWithin() {
   console.assert(pass, 'First range should match');
 }
 
+function testOverlapsWhenMinAreEqual() {
+  const input = [
+    { min: 10, max: 30 },
+    { min: 10, max: 20 },
+  ];
+  const expected = [
+    { min: 10, max: 30 }
+  ];
+
+  const result = mergeRanges(input);
+
+  let pass = result.length === expected.length;
+  console.assert(pass, 'Should have same length', result);
+
+  pass = result[0].min === expected[0].min && result[0].max === expected[0].max
+  console.assert(pass, 'First range should match');
+}
+
+function testOverlapsWhenMaxAreEqualBelow() {
+  const input = [
+    { min: 10, max: 30 },
+    { min: 20, max: 30 },
+  ];
+  const expected = [
+    { min: 10, max: 30 }
+  ];
+
+  const result = mergeRanges(input);
+
+  let pass = result.length === expected.length;
+  console.assert(pass, 'Should have same length', result);
+
+  pass = result[0].min === expected[0].min && result[0].max === expected[0].max
+  console.assert(pass, 'First range should match');
+}
+
+function testOverlapsWhenMaxAreEqualBeyond() {
+  const input = [
+    { min: 10, max: 20 },
+    { min: 20, max: 30 },
+  ];
+  const expected = [
+    { min: 10, max: 30 }
+  ];
+
+  const result = mergeRanges(input);
+
+  let pass = result.length === expected.length;
+  console.assert(pass, 'Should have same length', result);
+
+  pass = result[0].min === expected[0].min && result[0].max === expected[0].max
+  console.assert(pass, 'First range should match');
+}
+
+function testOverlapsOnSeveralRanges() {
+  const input = [
+    { min: 10, max: 20 },
+    { min: 20, max: 30 },
+    { min: 50, max: 60 },
+    { min: 60, max: 70 },
+  ];
+  const expected = [
+    { min: 10, max: 30 },
+    { min: 50, max: 70 },
+  ];
+
+  const result = mergeRanges(input);
+
+  let pass = result.length === expected.length;
+  console.assert(pass, 'Should have same length', result);
+
+  pass = result[0].min === expected[0].min && result[0].max === expected[0].max
+  console.assert(pass, 'First range should match', expected[0], result[0]);
+
+  pass = result[1].min === expected[1].min && result[1].max === expected[1].max
+  console.assert(pass, 'Second range should match', expected[1], result[1]);
+}
+
 testOverlapsOnMax()
 testDoesNotOverlapBeyondMax()
 testOverlapsWithin()
+testOverlapsWhenMinAreEqual()
+testOverlapsWhenMaxAreEqualBelow()
+testOverlapsWhenMaxAreEqualBeyond()
+testOverlapsOnSeveralRanges()
 
 // const ranges = readRanges()
 //   .sort((a, b) => a.min - b.min)
