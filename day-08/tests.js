@@ -11,11 +11,14 @@ function readInput() {
 
 const junctions = readInput().map(line => Junction.from(line));
 
-const firstJunction = junctions[0];
-const distances = junctions
-  .slice(1)
-  .map(firstJunction.saveClosest.bind(firstJunction))
-  .sort((a, b) => a - b);
+junctions.forEach((junction, idx) => {
+  junctions.forEach((other, jdx) => {
+    if (idx !== jdx) {
+      junction.saveClosest(other);
+    }
+  });
+});
 
-console.log(firstJunction);
-console.log(firstJunction.closestNeighbor);
+junctions.forEach(junction => {
+  console.log(junction);
+});
