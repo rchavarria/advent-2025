@@ -47,3 +47,25 @@ export class JunctionNetwork {
     this.distance = a.distance(b);
   }
 }
+
+export class Circuit {
+  constructor() {
+    this.junctions = [];
+  }
+
+  add(junction) {
+    if (!this.junctions.includes(junction)) {
+      this.junctions.push(junction);
+    }
+  }
+
+  merge(otherCircuit) {
+    for (const junction of otherCircuit.junctions) {
+      this.add(junction);
+    }
+  }
+
+  contains(network) {
+    return this.junctions.includes(network.a) || this.junctions.includes(network.b);
+  }
+}
