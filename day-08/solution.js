@@ -8,7 +8,7 @@ function readInput() {
     .split('\r\n')
 }
 
-console.log(readInput())
+// console.log(readInput())
 
 export class Junction {
   static from(coordinates) {
@@ -20,12 +20,22 @@ export class Junction {
     this.x = x;
     this.y = y;
     this.z = z;
+    this.shortestDistance = undefined;
+    this.closestNeighbor = undefined;
   }
 
-  distance(target) {
-    const dx = this.x - target.x;
-    const dy = this.y - target.y;
-    const dz = this.z - target.z;
+  distance(neighbor) {
+    const dx = this.x - neighbor.x;
+    const dy = this.y - neighbor.y;
+    const dz = this.z - neighbor.z;
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  }
+
+  saveClosest(neighbor) {
+    const distance = this.distance(neighbor);
+    if (this.shortestDistance === undefined || distance < this.shortestDistance) {
+      this.shortestDistance = distance;
+      this.closestNeighbor = neighbor;
+    }
   }
 }
