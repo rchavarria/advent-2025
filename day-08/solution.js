@@ -39,3 +39,11 @@ export class Junction {
     }
   }
 }
+
+export class JunctionNetwork {
+  constructor(a, b) {
+    this.a = a;
+    this.b = b;
+    this.distance = a.distance(b);
+  }
+}
