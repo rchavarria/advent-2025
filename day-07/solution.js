@@ -43,6 +43,48 @@ function next(previous, current) {
   };
 }
 
+function countTimelines(value) {
+  if (value === '.' || value === '^') {
+    return 0
+  }
+
+  if (value === 'S') {
+    return 1
+  }
+
+  return Number(value)
+}
+
+function nextTime(previous, current) {
+  // Crea una copia de la línea actual como array
+  const result = [...current];
+
+  // Itera sobre todas las posiciones de la línea anterior
+  for (let i = 0; i < previous.length; i++) {
+    let timelines = countTimelines(previous[i]);
+    if (timelines > 0) {
+      // Si hay un splitter '^' en la posición debajo del haz, divide el haz
+      if (result[i] === '^') {
+        if (i > 0) {
+          result[i - 1] = countTimelines(result[i - 1]) + timelines;
+        }
+
+        if (i < result.length - 1) {
+          result[i + 1] = countTimelines(result[i + 1]) + timelines;
+        }
+
+        // El splitter se mantiene igual
+        continue;
+      }
+
+      // Si hay espacio vacío debajo del haz, coloca '1'
+      result[i] = countTimelines(result[i]) + timelines;
+    }
+  }
+
+  return result
+}
+
 function testStart() {
   const expected = '..1..';
 
@@ -154,17 +196,37 @@ function startTachyonManifold(levels) {
   console.log(`\nTotal splitters activated: ${splitCount}`)
 }
 
-console.log('')
-console.log('--------------')
-console.log('')
-startTachyonManifold(levels)
+function startManyWorlds(levels) {
+  console.log(levels[0].join(''))
+  for (let i = 1; i < levels.length; i++) {
+    const down = nextTime(levels[i - 1], levels[i])
+    console.log(down.join(''))
+    levels[i] = down
+  }
+
+  const last = levels[levels.length - 1]
+  const totalTimelines = last
+    .reduce((acc, val) => acc + countTimelines(val), 0)
+  console.log(`\nTotal timelines at the end: ${totalTimelines}`)
+}
+
+// console.log('')
+// console.log('--------------')
+// console.log('')
+// startTachyonManifold(levels)
+// startManyWorlds(levels.map(l => l.split('')))
+
+// console.log('')
+// console.log('--------------')
+// console.log('')
+// startTachyonManifold(example)
+// startManyWorlds(example.map(l => l.split('')))
 
 console.log('')
 console.log('--------------')
 console.log('')
-startTachyonManifold(example)
-
-console.log('')
-console.log('--------------')
-console.log('')
-startTachyonManifold(readLevels())
+// startManyWorlds(readLevels().slice(0, 10))
+startManyWorlds(
+  readLevels()
+    .map(l => l.split(''))
+)
