@@ -15,25 +15,25 @@ function next(previous, current) {
 
   // Itera sobre todas las posiciones de la línea anterior
   for (let i = 0; i < previous.length; i++) {
-    if (previous[i] === 'S' || previous[i] === '|') {
+    if (previous[i] === 'S' || previous[i] === '1') {
       // Si hay un splitter '^' en la posición debajo del haz, divide el haz
       if (result[i] === '^') {
         let splitted = false;
         if (i > 0 && result[i - 1] === '.') {
-          result[i - 1] = '|';
+          result[i - 1] = '1';
           splitted = true;
         }
         if (i < result.length - 1 && result[i + 1] === '.') {
-          result[i + 1] = '|';
+          result[i + 1] = '1';
           splitted = true;
         }
         if (splitted) splitCount++;
         // El splitter se mantiene igual
         continue;
       }
-      // Si hay espacio vacío debajo del haz, coloca '|'
+      // Si hay espacio vacío debajo del haz, coloca '1'
       if (result[i] === '.') {
-        result[i] = '|';
+        result[i] = '1';
       }
     }
   }
@@ -44,7 +44,7 @@ function next(previous, current) {
 }
 
 function testStart() {
-  const expected = '..|..';
+  const expected = '..1..';
 
   const actual = next(
     '..S..',
@@ -68,10 +68,10 @@ function testEmptySpace() {
 }
 
 function testBeamGoesDownwards() {
-  const expected = '..|..';
+  const expected = '..1..';
 
   const actual = next(
-    '..|..',
+    '..1..',
     '.....',
     );
 
@@ -80,10 +80,10 @@ function testBeamGoesDownwards() {
 }
 
 function testBeamSplits() {
-  const expected = { status: '.|^|.', splitCount: 1 };
+  const expected = { status: '.1^1.', splitCount: 1 };
 
   const actual = next(
-    '..|..',
+    '..1..',
     '..^..',
     );
 
@@ -93,10 +93,10 @@ function testBeamSplits() {
 }
 
 function testSeveralBeams() {
-  const expected = '.|.|.';
+  const expected = '.1.1.';
 
   const actual = next(
-    '.|.|.',
+    '.1.1.',
     '.....',
     );
 
