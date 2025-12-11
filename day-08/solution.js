@@ -120,7 +120,9 @@ export function connectIntoCircuits(networks, limit) {
     }
   });
 
-  return circuits;
+  return circuits
+    .sort((a, b) => b.junctions.length - a.junctions.length)
+    .slice(0, 3)
 }
 
 export function printCircuits(circuits) {
@@ -130,4 +132,18 @@ export function printCircuits(circuits) {
       console.log(`  Junction (${j.x},${j.y},${j.z})`);
     });
   });
+
+  return circuits
 }
+
+const junctions = readInput().map(line => Junction.from(line));
+const circuits = printCircuits(
+  connectIntoCircuits(
+    buildNetworkPairs(junctions),
+    1000
+  )
+);
+
+// Calculate and print the multiplication of the number of junctions per circuit
+const junctionsProduct = circuits.reduce((acc, circuit) => acc * circuit.junctions.length, 1);
+console.log(`Product of junction counts per circuit: ${junctionsProduct}`);
