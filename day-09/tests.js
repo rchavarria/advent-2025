@@ -34,8 +34,22 @@ class Rectangle {
   }
 }
 
-// Crear lista de corners usando readInput()
+// Create a list of corners using readInput()
 const lines = readInput();
-const corners = lines.map(Corner.from);
+const corners = lines.map(line => Corner.from(line));
 
-console.log(corners);
+// Create as many rectangles as possible by pairing corners
+const rectangles = [];
+for (let i = 0; i < corners.length - 1; i += 2) {
+  const a = corners[i];
+  const b = corners[i + 1];
+  rectangles.push(new Rectangle(a, b));
+}
+
+// Sort rectangles by area in descending order
+rectangles.sort((r1, r2) => r2.area() - r1.area());
+
+console.log('Rectangles sorted by area (descending):');
+rectangles.forEach((rect, idx) => {
+  console.log(`Rectangle ${idx + 1}: a=(${rect.a.x},${rect.a.y}), b=(${rect.b.x},${rect.b.y}), area=${rect.area()}`);
+});
