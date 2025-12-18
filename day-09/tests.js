@@ -21,6 +21,19 @@ class Corner {
   }
 }
 
+class Rectangle {
+  constructor(a, b) {
+    this.a = a;
+    this.b = b;
+  }
+
+  area() {
+    const width = Math.abs(this.a.x - this.b.x);
+    const height = Math.abs(this.a.y - this.b.y);
+    return width * height;
+  }
+}
+
 // Crear lista de corners usando readInput()
 const lines = readInput();
 const corners = lines.map(Corner.from);
