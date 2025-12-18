@@ -32,8 +32,8 @@ class Rectangle {
   }
 
   area() {
-    const width = Math.abs(this.a.x - this.b.x);
-    const height = Math.abs(this.a.y - this.b.y);
+    const width = Math.abs(this.a.x - this.b.x) + 1;
+    const height = Math.abs(this.a.y - this.b.y) + 1;
     return width * height;
   }
 
