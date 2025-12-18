@@ -8,4 +8,36 @@ function readInput() {
     .split('\r\n')
 }
 
-console.log(readInput())
+export class Corner {
+
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  static from(line) {
+    const [x, y] = line.split(',').map(Number);
+    return new Corner(x, y);
+  }
+
+  toString() {
+    return `(${this.x}, ${this.y})`;
+  }
+}
+
+export class Rectangle {
+  constructor(a, b) {
+    this.a = a;
+    this.b = b;
+  }
+
+  area() {
+    const width = Math.abs(this.a.x - this.b.x) + 1;
+    const height = Math.abs(this.a.y - this.b.y) + 1;
+    return width * height;
+  }
+
+  toString() {
+    return `R [ a=${this.a.toString()}, b=${this.b.toString()}, S=${this.area()} ]`;
+  }
+}
