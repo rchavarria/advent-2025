@@ -41,3 +41,24 @@ export class Rectangle {
     return `R [ a=${this.a.toString()}, b=${this.b.toString()}, S=${this.area()} ]`;
   }
 }
+
+export function createRectangleList(corners) {
+  const rectangles = [];
+
+  for (let i = 0; i < corners.length - 1; i++) {
+    for (let j = i + 1; j < corners.length; j++) {
+      rectangles.push(new Rectangle(corners[i], corners[j]));
+    }
+  }
+
+  return rectangles
+    .sort((r1, r2) => r2.area() - r1.area());
+}
+
+export function printRectangles(rectangles) {
+  console.log('Rectangles sorted by area (descending):');
+  rectangles.forEach((rect, idx) => {
+    const indexStr = String(idx + 1).padStart(3, ' ');
+    console.log(`Rectangle ${indexStr}: ${rect.toString()}`);
+  });
+}
