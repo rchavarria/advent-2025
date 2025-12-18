@@ -19,6 +19,10 @@ class Corner {
     const [x, y] = line.split(',').map(Number);
     return new Corner(x, y);
   }
+
+  toString() {
+    return `(${this.x}, ${this.y})`;
+  }
 }
 
 class Rectangle {
@@ -31,6 +35,10 @@ class Rectangle {
     const width = Math.abs(this.a.x - this.b.x);
     const height = Math.abs(this.a.y - this.b.y);
     return width * height;
+  }
+
+  toString() {
+    return `R [ a=${this.a.toString()}, b=${this.b.toString()}, S=${this.area()} ]`;
   }
 }
 
@@ -53,5 +61,6 @@ rectangles.sort((r1, r2) => r2.area() - r1.area());
 
 console.log('Rectangles sorted by area (descending):');
 rectangles.forEach((rect, idx) => {
-  console.log(`Rectangle ${idx + 1}: a=(${rect.a.x},${rect.a.y}), b=(${rect.b.x},${rect.b.y}), area=${rect.area()}`);
+  const indexStr = String(idx + 1).padStart(3, ' ');
+  console.log(`Rectangle ${indexStr}: ${rect.toString()}`);
 });
