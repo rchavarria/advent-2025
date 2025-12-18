@@ -62,3 +62,10 @@ export function printRectangles(rectangles) {
     console.log(`Rectangle ${indexStr}: ${rect.toString()}`);
   });
 }
+
+function run() {
+  const corners = readInput().map(line => Corner.from(line));
+  const rectangles = createRectangleList(corners);
+  printRectangles(rectangles.slice(0, 10));
+}
+run();
