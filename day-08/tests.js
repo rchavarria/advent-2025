@@ -12,4 +12,7 @@ function readInput() {
 const junctions = readInput().map(line => Junction.from(line));
 
 // Find all unique pairs of Junctions and create JunctionNetwork instances
-printCircuits(connectIntoCircuits(buildNetworkPairs(junctions), 10));
+const networks = buildNetworkPairs(junctions);
+// 190 networks for example.txt
+const circuits = connectIntoCircuits(networks, networks.length, junctions.length);
+printCircuits(circuits);

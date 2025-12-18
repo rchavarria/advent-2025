@@ -46,6 +46,14 @@ export class JunctionNetwork {
     this.b = b;
     this.distance = a.distance(b);
   }
+
+  toString() {
+    return `A (${this.a.x},${this.a.y},${this.a.z}) => B (${this.b.x},${this.b.y},${this.b.z})`;
+  }
+
+  xMultiplied() {
+    return this.a.x * this.b.x;
+  }
 }
 
 export class Circuit {
@@ -80,7 +88,7 @@ export function buildNetworkPairs(junctions) {
   return networks;
 }
 
-export function connectIntoCircuits(networks, limit) {
+export function connectIntoCircuits(networks, limit, totalJunctions) {
   // Sort the networks by distance (ascending)
   const sorted = networks
     .sort((a, b) => a.distance - b.distance)
@@ -89,9 +97,10 @@ export function connectIntoCircuits(networks, limit) {
   // Build circuits from sorted networks
   const circuits = [];
 
-  sorted.forEach(network => {
+  for(const network of sorted) {
     // Find all circuits that contain either junction of the network
     const foundCircuits = circuits.filter(circuit => circuit.contains(network));
+    console.log('Network:', network.toString(), 'found on N circuits:', foundCircuits.length);
 
     if (foundCircuits.length === 0) {
       // No circuit contains either junction: create a new circuit
@@ -118,11 +127,17 @@ export function connectIntoCircuits(networks, limit) {
       }
       circuits.push(mergedCircuit);
     }
-  });
+
+    if (circuits.length === 1 && circuits[0].junctions.length === totalJunctions) {
+      // everything is connected into just one circuit
+      console.log('Last network connected everything into one circuit!', network.toString());
+      console.log('Solution to second part', network.xMultiplied())
+      break;
+    }
+  }
 
   return circuits
     .sort((a, b) => b.junctions.length - a.junctions.length)
-    .slice(0, 3)
 }
 
 export function printCircuits(circuits) {
@@ -137,13 +152,10 @@ export function printCircuits(circuits) {
 }
 
 const junctions = readInput().map(line => Junction.from(line));
-const circuits = printCircuits(
-  connectIntoCircuits(
-    buildNetworkPairs(junctions),
-    1000
-  )
-);
+const networks = buildNetworkPairs(junctions);
+const circuits = connectIntoCircuits(networks, networks.length, junctions.length);
+printCircuits(circuits);
 
 // Calculate and print the multiplication of the number of junctions per circuit
-const junctionsProduct = circuits.reduce((acc, circuit) => acc * circuit.junctions.length, 1);
-console.log(`Product of junction counts per circuit: ${junctionsProduct}`);
+// const junctionsProduct = circuits.reduce((acc, circuit) => acc * circuit.junctions.length, 1);
+// console.log(`Product of junction counts per circuit: ${junctionsProduct}`);
