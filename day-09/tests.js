@@ -40,10 +40,12 @@ const corners = lines.map(line => Corner.from(line));
 
 // Create as many rectangles as possible by pairing corners
 const rectangles = [];
-for (let i = 0; i < corners.length - 1; i += 2) {
-  const a = corners[i];
-  const b = corners[i + 1];
-  rectangles.push(new Rectangle(a, b));
+for (let i = 0; i < corners.length - 1; i++) {
+  for (let j = i + 1; j < corners.length; j++) {
+    const a = corners[i];
+    const b = corners[j];
+    rectangles.push(new Rectangle(a, b));
+  }
 }
 
 // Sort rectangles by area in descending order
